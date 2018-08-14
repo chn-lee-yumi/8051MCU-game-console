@@ -1,0 +1,691 @@
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 1   
+
+
+C51 COMPILER V7.00, COMPILATION OF MODULE ´ò__»_____»_Ä_Äâ_÷
+OBJECT MODULE PLACED IN ´ò·É»úÓÎÏ·»úÄ£ÄâÆ÷.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ´ò·É»úÓÎÏ·»úÄ£ÄâÆ÷.c LARGE OPTIMIZE(9,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          /* 
+   2                             _ooOoo_ 
+   3                            o8888888o 
+   4                            88" . "88 
+   5                            (| -_- |) 
+   6                            O\  =  /O 
+   7                         ____/`---'\____ 
+   8                       .'  \\|     |//  `. 
+   9                      /  \\|||  :  |||//  \ 
+  10                     /  _||||| -:- |||||-  \ 
+  11                     |   | \\\  -  /// |   | 
+  12                     | \_|  ''\---/''  |   | 
+  13                     \  .-\__  `-`  ___/-. / 
+  14                   ___`. .'  /--.--\  `. . __ 
+  15                ."" '<  `.___\_<|>_/___.'  >'"". 
+  16               | | :  `- \`.;`\ _ /`;.`/ - ` : | | 
+  17               \  \ `-.   \_ __\ /__ _/   .-` /  / 
+  18          ======`-.____`-.___\_____/___.-`____.-'====== 
+  19                             `=---=' 
+  20          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+  21                   ·ð×æ±£ÓÓ       ÓÀÎÞBUG 
+  22          */
+  23          /*´ò·É»úÓÎÏ·»ú*/
+  24          #include "Virtual51API.h"
+  25          //ÏÂÃæ¶¨Òå³¡¾°
+  26          #define SCENE_MENU_MAIN 1
+  27          #define SCENE_PLAYING 5
+  28          #define SCENE_GAME_OVER 6
+  29          #define SCENE_GAME_WIN 7
+  30          unsigned char scene = SCENE_MENU_MAIN;//³¡¾°£¬°´¼üÖ´ÐÐ¹¦ÄÜÊ±ÓÃ
+  31          //ÏÂÃæ¶¨ÒåÓÎÏ·²Ëµ¥
+  32          const unsigned char code menu_main[][WIDTH]={
+  33          0x00,0xC0,0x00,0x00,0x80,0x80,0x90,0xB0,0x80,0x80,0x80,0x80,0x00,0x00,0x00,0x00,
+  34          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x20,0x00,0x20,0xA0,0x20,
+  35          0x20,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xC0,0x00,0x00,0xC0,0x00,
+  36          0x00,0x00,0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  37          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  38          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  39          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  40          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xC0,0xA0,0xAC,
+  41          0x24,0xDB,0x04,0x01,0x16,0x08,0x78,0xC4,0x88,0xF6,0x08,0x09,0x08,0x00,0x00,0x00,
+  42          0x62,0x32,0x12,0x1A,0x0A,0x0C,0x00,0x00,0x00,0x02,0x06,0x04,0x08,0x08,0xF7,0x08,
+  43          0xE8,0x15,0x00,0x08,0x08,0x08,0x0C,0x00,0x04,0x04,0x84,0x79,0xC2,0x62,0x3D,0x02,
+  44          0x02,0x02,0x77,0xE4,0x24,0x34,0x15,0x14,0xF0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  45          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  46          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  47          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  48          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,
+  49          0x03,0x05,0x00,0x00,0x00,0x02,0x03,0x01,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00,
+  50          0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x03,0x01,0x00,
+  51          0x03,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x03,0x01,0x01,0x00,0x03,0x04,0x04,0x00,
+  52          0x00,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  53          };
+  54          #define MENU_ITEM_START 1 //¿ªÊ¼ÓÎÏ·
+  55          //ÏÂÃæÉùÃ÷¸÷ÖÖº¯Êý
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 2   
+
+  56          //ÓÎÏ·Ïà¹Ø
+  57          void StartGame();//¿ªÊ¼ÓÎÏ·
+  58          void ButtonManage();//°´¼ü´¦Àí
+  59          void GameShoot();//·¢Éä×Óµ¯
+  60          void GameMoveBullet();//ÒÆ¶¯×Óµ¯
+  61          void GameMoveEnemy();//ÒÆ¶¯µÐ»ú
+  62          void GameMoveAerolite();//ÒÆ¶¯ÔÉÊ¯
+  63          void GameOver();//ÓÎÏ·½áÊø
+  64          void GameWin();//ÓÎÏ·Ê¤Àû
+  65          //LCDÏà¹Ø
+  66          void DrawScreen(unsigned char x,unsigned char y,unsigned char drawing_model);//ÓÎÏ·ÏÔÊ¾
+  67          //ÏÂÃæ¶¨Òå¸÷ÖÖ±äÁ¿
+  68          unsigned char display_mem_buff[2]={0x00,0x00};//ÏÔÊ¾»º´æ
+  69          unsigned char my_plane_x,my_plane_y;//ÎÒµÄ·É»ú×ø±ê¡£
+  70          unsigned int game_speed=5;//ÓÎÏ·ËÙ¶È£¬¿ØÖÆ¶¨Ê±Æ÷1³õÖµ£¬·¶Î§1~10£¬¶¨Ê±Æ÷1³õÖµÎª65535-2500+200*game_speed
+  71          unsigned int game_shoot_speed_counter=0;//·¢Éä×Óµ¯µÄÑÓÊ±¼ÆÊýÆ÷£¬Timer1Ã¿ÖÐ¶ÏÒ»´ÎÕâ¸öÖµ¼Ó1
+  72          unsigned int game_shoot_speed;//game_shoot_speed_counterµ½´ï¸ÃÖµ¾Í·¢Éä×Óµ¯
+  73          unsigned int game_bullet_speed_counter=0;//×Óµ¯ÒÆ¶¯µÄÑÓÊ±¼ÆÊýÆ÷£¬Timer1Ã¿ÖÐ¶ÏÒ»´ÎÕâ¸öÖµ¼Ó1
+  74          unsigned int game_bullet_speed;
+  75          unsigned int game_enemy_speed_counter=0;//µÐÈËÒÆ¶¯µÄÑÓÊ±¼ÆÊýÆ÷£¬Timer1Ã¿ÖÐ¶ÏÒ»´ÎÕâ¸öÖµ¼Ó1
+  76          unsigned int game_enemy_speed;
+  77          unsigned char game_map[17][8];//8ÐÐ16ÁÐµÄµØÍ¼£¬µÚ17ÁÐÓÃÀ´·Å×¼±¸³öÀ´µÄµÐ»ú
+  78          unsigned char game_progress;//ÓÎÏ·½ø¶È£¬±íÊ¾·É»ú×ßµ½µØÍ¼ÄÄÀïÁË
+  79          unsigned char game_level_selected=4;//µ±Ç°Ñ¡ÖÐµÄ¹Ø¿¨£¬ÔÚÄ£ÄâÆ÷ÀïÖ»ÓÐ1¹Ø£¬Õâ¸öÓÃÀ´¿ØÖÆBOSSÇ¿¶È£¬·¶Î§1~13¡£
+  80          unsigned char game_boss_hp;//BOSSÑªÁ¿
+  81          unsigned char game_boss_attack_speed_counter=0;//BOSS¹¥»÷ËÙ¶È
+  82          unsigned char game_aerolite_speed;//ÔÉÊ¯ËÙ¶È£¨BOSSÕÙ»½ÔÉÊ¯¹¥»÷£©
+  83          game_aerolite_speed_counter=0;
+  84          //ÏÂÃæ¶¨ÒåÓÎÏ·Ä£ÐÍ
+  85          const unsigned char code model[11][8]={
+  86              {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},{0x18,0x18,0x19,0xFF,0xFF,0x19,0x18,0x18},
+  87              {0x18,0x38,0x19,0xFF,0xFF,0x19,0x38,0x18},{0x38,0x38,0x19,0xFF,0xFF,0x19,0x38,0x38},
+  88              {0x38,0x78,0x19,0xFF,0xFF,0x19,0x78,0x38},{0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF},
+  89              {0x18,0x7E,0x7E,0xFF,0xFF,0x7E,0x7E,0x18},{0x3C,0x3D,0x19,0xFF,0xFF,0x19,0x3D,0x3C},
+  90              {0x3C,0x1D,0x19,0xFF,0xFF,0x19,0x1D,0x3C},{0x00,0x00,0x00,0x7E,0x7E,0x00,0x00,0x00},
+  91              {0x18,0x18,0x9C,0xFF,0xFF,0x9C,0x18,0x18}
+  92          };//8x8µÄÄ£ÐÍ£¬ÎÒµÄ·É»ú£¬µÐÈË·É»ú1£¬µÐÈË·É»ú2£¬µÐÈË·É»ú3£¬µÐÈË·É»ú4£¬ÕÏ°­Îï£¬ÔÉÊ¯£¬BOSS£¬²ÐÑªBOSS£¬×Óµ¯
+  93          #define MY_PLANE 10 //ÎÒµÄ·É»ú
+  94          #define ENEMY_PLANE1 1 //µÐÈË·É»ú1
+  95          #define ENEMY_PLANE2 2 //µÐÈË·É»ú2
+  96          #define ENEMY_PLANE3 3 //µÐÈË·É»ú3
+  97          #define ENEMY_PLANE4 4 //µÐÈË·É»ú4
+  98          #define OBSTACLE 5 //ÕÏ°­Îï
+  99          #define AEROLITE 6 //ÔÉÊ¯
+ 100          #define ENEMY_BOSS 7 //BOSS
+ 101          #define ENEMY_BOSS_DILAPIDATED 8 //²ÐÑªBOSS
+ 102          #define BULLET 9 //×Óµ¯
+ 103          #define NOTHING 0 //¿Õ
+ 104          //ÏÂÃæ¶¨ÒåµØÍ¼
+ 105          #define MAP_LENGTH 30 //ÒòÎªÒ»¸öÉÈÇø±£´æÒ»¸öµØÍ¼£¬ËùÒÔµØÍ¼³¤¶È×î´ó¿ÉÒÔÎª512/8=64£¬²»¹ýÔÝÊ±²»Ð´ÕâÃ´´ó£¬±àµØ
+             -Í¼ºÃÀÛµÄ
+ 106          const unsigned char code game_map_level[1][MAP_LENGTH][8]= //¹Ø¿¨Êý£¬³¤¶È£¬µØÍ¼¿í¶È¡£
+ 107          {
+ 108              {//Ä£ÄâÆ÷Ö»ÓÐ1¹Ø
+ 109                  {0,0,5,0,0,0,0,0},
+ 110                  {0,0,0,0,0,0,0,0},
+ 111                  {0,0,0,1,1,0,0,0},
+ 112                  {0,5,0,0,0,0,0,0},
+ 113                  {0,0,1,0,0,1,0,0},
+ 114                  {0,0,0,0,0,0,0,0},
+ 115                  {0,0,1,0,0,1,0,0},
+ 116                  {0,0,0,0,0,0,0,0},
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 3   
+
+ 117                  {0,1,0,1,1,0,1,0},
+ 118                  {0,0,0,0,0,0,0,0},
+ 119                  {1,0,1,0,0,1,0,1},
+ 120                  {0,0,0,0,0,0,0,0},
+ 121                  {0,0,1,1,1,1,0,0},
+ 122                  {0,0,0,0,0,0,0,0},
+ 123                  {0,0,1,0,0,1,0,0},
+ 124                  {0,0,0,1,1,0,0,0},
+ 125                  {0,0,0,0,0,0,0,0},
+ 126                  {1,1,1,1,1,1,1,1},
+ 127                  {0,0,0,0,0,0,0,0},
+ 128                  {0,0,1,0,0,1,0,0},
+ 129                  {1,0,2,0,2,0,2,0},
+ 130                  {0,2,0,2,0,1,0,2},
+ 131                  {2,0,1,0,1,0,1,0},
+ 132                  {0,1,0,1,0,1,0,1},
+ 133                  {0,0,3,0,0,3,0,0},
+ 134                  {0,3,0,3,3,0,3,0},
+ 135                  {0,0,0,0,0,0,0,0},
+ 136                  {4,0,4,0,0,4,0,4},
+ 137                  {0,0,0,5,0,0,0,0},
+ 138                  {0,4,0,0,0,5,4,0}
+ 139              }
+ 140          };//µØÍ¼µ½´Ë½áÊø
+ 141          
+ 142          char virtualkey_delay=0;//ÓÃÓÚÄ£ÄâÆ÷µÄÐéÄâ¼üÅÌÑÓÊ±£¬ÎªË«ÊýÊ±°ÑvirtualkeyÖÃ1
+ 143          char virtualkey=0;
+ 144          /************************************************************************************************
+ 145          *************************************************************************************************
+ 146          ***************************************ÏÂÃæ¿ªÊ¼Ö÷³ÌÐò********************************************
+ 147          *************************************************************************************************
+ 148          ************************************************************************************************/
+ 149          
+ 150          void main(){
+ 151   1              //³õÊ¼»¯LCD
+ 152   1              sendLCDCmd(LCD_on);
+ 153   1              clearAll();
+ 154   1              drawLargeImage(20,0,menu_main,WIDTH,20);
+ 155   1              refreshScreen();
+ 156   1          //³õÊ¼»¯¶¨Ê±Æ÷
+ 157   1          TMOD=0x11;//¶¨Ê±Æ÷1Îª16Î»¶¨Ê±¼ÆÊýÆ÷£¬ÓÃÓÚÓÎÏ·ËÙ¶È
+ 158   1          EA=1;
+ 159   1          ET0=1;
+ 160   1          ET1=1;
+ 161   1          TH0=(65535-10000)/255;//50ms
+ 162   1          TL0=(65535-10000)%255;
+ 163   1          TR0=1;
+ 164   1          //Ñ­»·¼ì²â°´¼ü
+ 165   1          while(1){
+ 166   2              if(virtualkey==1){
+ 167   3                  ButtonManage();
+ 168   3              }
+ 169   2              if(scene==SCENE_PLAYING){
+ 170   3                  StartGame();
+ 171   3              }
+ 172   2          }
+ 173   1      }
+ 174          
+ 175          void Timer1() interrupt 3{
+ 176   1          //¿ØÖÆÓÎÏ·ËÙ¶ÈµÄ¶¨Ê±Æ÷
+ 177   1          game_shoot_speed_counter++;
+ 178   1          game_bullet_speed_counter++;
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 4   
+
+ 179   1          game_enemy_speed_counter++;
+ 180   1          game_aerolite_speed_counter++;
+ 181   1          TH1=(65535-2500+200*game_speed)/255;
+ 182   1          TL1=(65535-2500+200*game_speed)%255;
+ 183   1      }
+ 184          
+ 185          void Timer0() interrupt 1{
+ 186   1          //¿ØÖÆÐéÄâ¼üÅÌÑÓÊ±µÄ¶¨Ê±Æ÷¡£ÐèÒª100ms¡£
+ 187   1          virtualkey_delay++;
+ 188   1          if(virtualkey_delay==2){
+ 189   2              virtualkey_delay=0;
+ 190   2              virtualkey=1;
+ 191   2          }
+ 192   1          TH0=(65535-10000)/255;//50ms
+ 193   1          TL0=(65535-10000)%255;
+ 194   1      }
+ 195          
+ 196          void StartGame(){
+ 197   1          //¿ªÊ¼ÓÎÏ·
+ 198   1          unsigned char i,j;
+ 199   1          for(i=0;i<=16;i++){
+ 200   2              for(j=0;j<=7;j++){
+ 201   3                  game_map[i][j]=NOTHING;
+ 202   3              }
+ 203   2          }
+ 204   1          clearAll();
+ 205   1          game_shoot_speed=400;
+ 206   1          game_bullet_speed=100;
+ 207   1          game_enemy_speed=800;
+ 208   1          game_aerolite_speed=200;
+ 209   1          game_boss_hp=10+game_level_selected*3;
+ 210   1          game_progress=0;
+ 211   1          my_plane_x=0;
+ 212   1          my_plane_y=2;
+ 213   1          game_map[my_plane_x][my_plane_y]=MY_PLANE;
+ 214   1          DrawScreen(my_plane_x,my_plane_y,MY_PLANE);
+ 215   1          TH1=(65535-1000)/255;
+ 216   1          TL1=(65535-1000)%255;
+ 217   1          TR1=1;
+ 218   1          while(scene==SCENE_PLAYING){
+ 219   2              if(virtualkey==1){
+ 220   3                  ButtonManage();
+ 221   3              }
+ 222   2              if(game_bullet_speed_counter>=game_bullet_speed){
+ 223   3                  GameMoveBullet();//ÒÆ¶¯×Óµ¯
+ 224   3                  game_bullet_speed_counter=0;
+ 225   3              }
+ 226   2              if(game_enemy_speed_counter>=game_enemy_speed){
+ 227   3                  GameMoveEnemy();//ÒÆ¶¯µÐÈË
+ 228   3                  game_enemy_speed_counter=0;
+ 229   3              }
+ 230   2              if(game_shoot_speed_counter>=game_shoot_speed){
+ 231   3                  GameShoot();//·¢Éä×Óµ¯
+ 232   3                  game_shoot_speed_counter=0;
+ 233   3              }
+ 234   2              if(game_aerolite_speed_counter>=game_aerolite_speed){
+ 235   3                  GameMoveAerolite();//ÒÆ¶¯ÔÉÊ¯
+ 236   3                  game_aerolite_speed_counter=0;
+ 237   3              }
+ 238   2                  refreshScreen();
+ 239   2          }
+ 240   1      }
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 5   
+
+ 241          
+ 242          void ButtonManage(){
+ 243   1          //°´¼ü´¦Àí¡£Ë¼Â·£ºÅÐ¶Ï°´Å¥ÊÇ·ñ°´ÏÂ£¬Èç¹û°´ÏÂÁË£¬ÅÐ¶Ïµ±Ç°µÄ³¡¾°£¨scene£©£¬È»ºó½øÐÐÏàÓ¦²Ù×÷
+ 244   1          //Ö÷²Ëµ¥°´ÈÎÒâ¼ü¿ªÊ¼ÓÎÏ·¡£
+ 245   1          switch(KEYPAD){//¶ÁÈ¡ÐéÄâ¼üÅÌµÄ°´¼ü
+ 246   2              case 0x5e://ÉÏ
+ 247   2                  //drawString(32,32,"up");refreshScreen();
+ 248   2                  if(scene==SCENE_MENU_MAIN){//Ö÷²Ëµ¥
+ 249   3                      scene=SCENE_PLAYING;
+ 250   3                  }else if(scene==SCENE_PLAYING){//ÕýÔÚÓÎÏ·
+ 251   3                      if(my_plane_y>0){
+ 252   4                          if(game_map[my_plane_x][my_plane_y-1]!=NOTHING){
+ 253   5                              GameOver();
+ 254   5                          }else{
+ 255   5                              game_map[my_plane_x][my_plane_y]=NOTHING;
+ 256   5                              DrawScreen(my_plane_x,my_plane_y,NOTHING);
+ 257   5                              my_plane_y--;
+ 258   5                              game_map[my_plane_x][my_plane_y]=MY_PLANE;
+ 259   5                              DrawScreen(my_plane_x,my_plane_y,MY_PLANE);
+ 260   5                          }
+ 261   4                      }
+ 262   3                  }
+ 263   2                  break;
+ 264   2              case 0x56://ÏÂ
+ 265   2                  //drawString(32,32,"down");refreshScreen();
+ 266   2                  if(scene==SCENE_MENU_MAIN){//Ö÷²Ëµ¥
+ 267   3                      scene=SCENE_PLAYING;
+ 268   3                  }else if(scene==SCENE_PLAYING){//ÕýÔÚÓÎÏ·
+ 269   3                      if(my_plane_y<7){
+ 270   4                          if(game_map[my_plane_x][my_plane_y+1]!=NOTHING){
+ 271   5                              GameOver();
+ 272   5                          }else{
+ 273   5                              game_map[my_plane_x][my_plane_y]=NOTHING;
+ 274   5                              DrawScreen(my_plane_x,my_plane_y,NOTHING);
+ 275   5                              my_plane_y++;
+ 276   5                              game_map[my_plane_x][my_plane_y]=MY_PLANE;
+ 277   5                              DrawScreen(my_plane_x,my_plane_y,MY_PLANE);
+ 278   5                          }
+ 279   4                      }
+ 280   3                  }
+ 281   2                  break;
+ 282   2              case 0x3c://×ó
+ 283   2                  //drawString(32,32,"left");refreshScreen();
+ 284   2                  if(scene==SCENE_MENU_MAIN){//Ö÷²Ëµ¥
+ 285   3                      scene=SCENE_PLAYING;
+ 286   3                  }else if(scene==SCENE_PLAYING){//ÕýÔÚÓÎÏ·
+ 287   3                      if(my_plane_x>0){
+ 288   4                          if(game_map[my_plane_x-1][my_plane_y]!=NOTHING){
+ 289   5                              GameOver();
+ 290   5                          }else{
+ 291   5                              game_map[my_plane_x][my_plane_y]=NOTHING;
+ 292   5                              DrawScreen(my_plane_x,my_plane_y,NOTHING);
+ 293   5                              my_plane_x--;
+ 294   5                              game_map[my_plane_x][my_plane_y]=MY_PLANE;
+ 295   5                              DrawScreen(my_plane_x,my_plane_y,MY_PLANE);
+ 296   5                          }
+ 297   4                      }
+ 298   3                  }
+ 299   2                  break;
+ 300   2              case 0x3e://ÓÒ
+ 301   2                  //drawString(32,32,"right");refreshScreen();
+ 302   2                  if(scene==SCENE_MENU_MAIN){//Ö÷²Ëµ¥
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 6   
+
+ 303   3                      scene=SCENE_PLAYING;
+ 304   3                  }else if(scene==SCENE_PLAYING){//ÕýÔÚÓÎÏ·
+ 305   3                      if(my_plane_x<15){
+ 306   4                          if(game_map[my_plane_x+1][my_plane_y]!=NOTHING && game_map[my_plane_x+1][my_plane_y]!=
+             -BULLET){
+ 307   5                              GameOver();
+ 308   5                          }else{
+ 309   5                              game_map[my_plane_x][my_plane_y]=NOTHING;
+ 310   5                              DrawScreen(my_plane_x,my_plane_y,NOTHING);
+ 311   5                              my_plane_x++;
+ 312   5                              game_map[my_plane_x][my_plane_y]=MY_PLANE;
+ 313   5                              DrawScreen(my_plane_x,my_plane_y,MY_PLANE);
+ 314   5                          }
+ 315   4                      }
+ 316   3                  }
+ 317   2                  break;
+ 318   2          }
+ 319   1      }
+ 320          
+ 321          void GameShoot(){
+ 322   1          //·¢Éä×Óµ¯
+ 323   1          if(game_map[my_plane_x+1][my_plane_y]==ENEMY_PLANE1){
+ 324   2              game_map[my_plane_x+1][my_plane_y]=NOTHING;
+ 325   2              DrawScreen(my_plane_x+1,my_plane_y,NOTHING);
+ 326   2          }else if(game_map[my_plane_x+1][my_plane_y]==ENEMY_PLANE2){
+ 327   2              game_map[my_plane_x+1][my_plane_y]=ENEMY_PLANE1;
+ 328   2              DrawScreen(my_plane_x+1,my_plane_y,ENEMY_PLANE1);
+ 329   2          }else if(game_map[my_plane_x+1][my_plane_y]==ENEMY_PLANE3){
+ 330   2              game_map[my_plane_x+1][my_plane_y]=ENEMY_PLANE2;
+ 331   2              DrawScreen(my_plane_x+1,my_plane_y,ENEMY_PLANE2);
+ 332   2          }else if(game_map[my_plane_x+1][my_plane_y]==ENEMY_PLANE4){
+ 333   2              game_map[my_plane_x+1][my_plane_y]=ENEMY_PLANE3;
+ 334   2              DrawScreen(my_plane_x+1,my_plane_y,ENEMY_PLANE3);
+ 335   2          }else if(game_map[my_plane_x+1][my_plane_y]==ENEMY_BOSS||game_map[my_plane_x+1][my_plane_y]==ENEMY_BOS
+             -S_DILAPIDATED){
+ 336   2              game_boss_hp--;
+ 337   2              if(game_boss_hp==0){
+ 338   3                  GameWin();
+ 339   3              }else if(game_boss_hp<=5){
+ 340   3                  game_map[my_plane_x+1][my_plane_y]=ENEMY_BOSS_DILAPIDATED;
+ 341   3                  DrawScreen(my_plane_x+1,my_plane_y,ENEMY_BOSS_DILAPIDATED);
+ 342   3              }else{
+ 343   3                  game_map[my_plane_x+1][my_plane_y]=ENEMY_BOSS;
+ 344   3                  DrawScreen(my_plane_x+1,my_plane_y,ENEMY_BOSS);
+ 345   3              }
+ 346   2          }else if(game_map[my_plane_x+1][my_plane_y]==OBSTACLE||game_map[my_plane_x+1][my_plane_y]==AEROLITE){
+ 347   2              //²»²úÉú×Óµ¯
+ 348   2          }else{
+ 349   2              game_map[my_plane_x+1][my_plane_y]=BULLET;
+ 350   2              DrawScreen(my_plane_x+1,my_plane_y,BULLET);
+ 351   2          }
+ 352   1      }
+ 353          
+ 354          void GameMoveBullet(){
+ 355   1          //ÒÆ¶¯×Óµ¯
+ 356   1          char i,j;
+ 357   1          for(i=15;i>=0;i--){
+ 358   2              for(j=0;j<=7;j++){
+ 359   3                  if(game_map[i][j]==BULLET){
+ 360   4                      game_map[i][j]=NOTHING;
+ 361   4                      DrawScreen(i,j,NOTHING);
+ 362   4                      if(i==15){
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 7   
+
+ 363   5                          if(game_map[i+1][j]==ENEMY_PLANE1){
+ 364   6                              game_map[i+1][j]=NOTHING;
+ 365   6                          }else if(game_map[i+1][j]==ENEMY_PLANE2){
+ 366   6                              game_map[i+1][j]=ENEMY_PLANE1;
+ 367   6                          }else if(game_map[i+1][j]==ENEMY_PLANE3){
+ 368   6                              game_map[i+1][j]=ENEMY_PLANE2;
+ 369   6                          }else if(game_map[i+1][j]==ENEMY_PLANE4){
+ 370   6                              game_map[i+1][j]=ENEMY_PLANE3;
+ 371   6                          }
+ 372   5                      }else{
+ 373   5                          if(game_map[i+1][j]==ENEMY_PLANE1){
+ 374   6                              game_map[i+1][j]=NOTHING;
+ 375   6                              DrawScreen(i+1,j,NOTHING);
+ 376   6                          }else if(game_map[i+1][j]==ENEMY_PLANE2){
+ 377   6                              game_map[i+1][j]=ENEMY_PLANE1;
+ 378   6                              DrawScreen(i+1,j,ENEMY_PLANE1);
+ 379   6                          }else if(game_map[i+1][j]==ENEMY_PLANE3){
+ 380   6                              game_map[i+1][j]=ENEMY_PLANE2;
+ 381   6                              DrawScreen(i+1,j,ENEMY_PLANE2);
+ 382   6                          }else if(game_map[i+1][j]==ENEMY_PLANE4){
+ 383   6                              game_map[i+1][j]=ENEMY_PLANE3;
+ 384   6                              DrawScreen(i+1,j,ENEMY_PLANE3);
+ 385   6                          }else if(game_map[i+1][j]==ENEMY_BOSS||game_map[i+1][j]==ENEMY_BOSS_DILAPIDATED){
+ 386   6                              game_boss_hp--;
+ 387   6                              if(game_boss_hp==0){
+ 388   7                                  game_map[i+1][j]=NOTHING;
+ 389   7                                  DrawScreen(i+1,j,NOTHING);
+ 390   7                                  GameWin();
+ 391   7                              }else if(game_boss_hp<=5){
+ 392   7                                  game_map[i+1][j]=ENEMY_BOSS_DILAPIDATED;
+ 393   7                                  DrawScreen(i+1,j,ENEMY_BOSS_DILAPIDATED);//²ÐÑªBOSSµÄÄ£ÐÍ
+ 394   7                              }else{
+ 395   7                                  DrawScreen(i+1,j,ENEMY_BOSS);
+ 396   7                              }
+ 397   6                          }else if(game_map[i+1][j]==OBSTACLE||game_map[i+1][j]==AEROLITE){
+ 398   6                              //×Óµ¯×²Ã»ÁË
+ 399   6                          }else{
+ 400   6                              game_map[i+1][j]=BULLET;
+ 401   6                              DrawScreen(i+1,j,BULLET);
+ 402   6                          }
+ 403   5                      }
+ 404   4                  }
+ 405   3              }
+ 406   2          }
+ 407   1      }
+ 408          
+ 409          void GameMoveEnemy(){
+ 410   1          //ÒÆ¶¯µÐ»ú
+ 411   1          char i,j;
+ 412   1          for(i=0;i<=16;i++){
+ 413   2              for(j=0;j<=7;j++){
+ 414   3                  if(i==0 && (game_map[i][j]==ENEMY_PLANE1||game_map[i][j]==ENEMY_PLANE2||game_map[i][j]==ENEMY_
+             -PLANE3||game_map[i][j]==ENEMY_PLANE4||game_map[i][j]==OBSTACLE)){
+ 415   4                      game_map[i][j]=NOTHING;
+ 416   4                      DrawScreen(i,j,NOTHING);
+ 417   4                  }else{
+ 418   4                      if(game_map[i][j]==ENEMY_PLANE1){
+ 419   5                          game_map[i][j]=NOTHING;
+ 420   5                          if(i!=16) DrawScreen(i,j,NOTHING);
+ 421   5                          if(game_map[i-1][j]==BULLET){
+ 422   6                              game_map[i-1][j]=NOTHING;
+ 423   6                              DrawScreen(i-1,j,NOTHING);
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 8   
+
+ 424   6                          }else if(game_map[i-1][j]==MY_PLANE){
+ 425   6                              GameOver();
+ 426   6                          }else{
+ 427   6                              game_map[i-1][j]=ENEMY_PLANE1;
+ 428   6                              DrawScreen(i-1,j,ENEMY_PLANE1);
+ 429   6                          }
+ 430   5                      }
+ 431   4                      if(game_map[i][j]==ENEMY_PLANE2){
+ 432   5                          game_map[i][j]=NOTHING;
+ 433   5                          if(i!=16) DrawScreen(i,j,NOTHING);
+ 434   5                          if(game_map[i-1][j]==BULLET){
+ 435   6                              game_map[i-1][j]=ENEMY_PLANE1;
+ 436   6                              DrawScreen(i-1,j,ENEMY_PLANE1);
+ 437   6                          }else if(game_map[i-1][j]==MY_PLANE){
+ 438   6                              GameOver();
+ 439   6                          }else{
+ 440   6                              game_map[i-1][j]=ENEMY_PLANE2;
+ 441   6                              DrawScreen(i-1,j,ENEMY_PLANE2);
+ 442   6                          }
+ 443   5                      }
+ 444   4                      if(game_map[i][j]==ENEMY_PLANE3){
+ 445   5                          game_map[i][j]=NOTHING;
+ 446   5                          if(i!=16) DrawScreen(i,j,NOTHING);
+ 447   5                          if(game_map[i-1][j]==BULLET){
+ 448   6                              game_map[i-1][j]=ENEMY_PLANE2;
+ 449   6                              DrawScreen(i-1,j,ENEMY_PLANE2);
+ 450   6                          }else if(game_map[i-1][j]==MY_PLANE){
+ 451   6                              GameOver();
+ 452   6                          }else{
+ 453   6                              game_map[i-1][j]=ENEMY_PLANE3;
+ 454   6                              DrawScreen(i-1,j,ENEMY_PLANE3);
+ 455   6                          }
+ 456   5                      }
+ 457   4                      if(game_map[i][j]==ENEMY_PLANE4){
+ 458   5                          game_map[i][j]=NOTHING;
+ 459   5                          if(i!=16) DrawScreen(i,j,NOTHING);
+ 460   5                          if(game_map[i-1][j]==BULLET){
+ 461   6                              game_map[i-1][j]=ENEMY_PLANE3;
+ 462   6                              DrawScreen(i-1,j,ENEMY_PLANE3);
+ 463   6                          }else if(game_map[i-1][j]==MY_PLANE){
+ 464   6                              GameOver();
+ 465   6                          }else{
+ 466   6                              game_map[i-1][j]=ENEMY_PLANE4;
+ 467   6                              DrawScreen(i-1,j,ENEMY_PLANE4);
+ 468   6                          }
+ 469   5                      }
+ 470   4                      if(game_map[i][j]==OBSTACLE){
+ 471   5                          game_map[i][j]=NOTHING;
+ 472   5                          if(i!=16) DrawScreen(i,j,NOTHING);
+ 473   5                          if(game_map[i-1][j]==MY_PLANE){
+ 474   6                              GameOver();
+ 475   6                          }else{
+ 476   6                              game_map[i-1][j]=OBSTACLE;
+ 477   6                              DrawScreen(i-1,j,OBSTACLE);
+ 478   6                          }
+ 479   5                      }
+ 480   4                  }
+ 481   3              }
+ 482   2          }
+ 483   1          //³öÏÖµÐ»ú
+ 484   1          if(game_progress<MAP_LENGTH){//Èç¹ûÃ»×ßÍêµØÍ¼
+ 485   2              for(j=0;j<=7;j++){
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 9   
+
+ 486   3                  game_map[16][j]=game_map_level[0][game_progress][j];
+ 487   3              }
+ 488   2          }
+ 489   1          //³öÏÖBOSS
+ 490   1          if(game_progress==MAP_LENGTH+2){//×ßÍêµØÍ¼¹ýÒ»»á¶ù
+ 491   2              game_map[15][game_bullet_speed_counter%7]=ENEMY_BOSS;
+ 492   2          }
+ 493   1          if(game_progress<MAP_LENGTH+9) game_progress++;
+ 494   1          //ÒÆ¶¯BOSS
+ 495   1          for(j=0;j<=7;j++){
+ 496   2              if(game_map[15][j]==ENEMY_BOSS){
+ 497   3                  if((game_bullet_speed_counter+game_boss_hp)%5==0){//ÉÏÒÆ
+ 498   4                      if(j==0){
+ 499   5                          if(game_map[15][1]!=BULLET){
+ 500   6                              game_map[15][j]=NOTHING;
+ 501   6                              DrawScreen(15,j,NOTHING);
+ 502   6                              game_map[15][1]=ENEMY_BOSS;
+ 503   6                              DrawScreen(15,1,ENEMY_BOSS);
+ 504   6                          }
+ 505   5                      }else if(game_map[15][j-1]!=BULLET){
+ 506   5                          game_map[15][j]=NOTHING;
+ 507   5                          DrawScreen(15,j,NOTHING);
+ 508   5                          game_map[15][j-1]=ENEMY_BOSS;
+ 509   5                          DrawScreen(15,j-1,ENEMY_BOSS);
+ 510   5                      }
+ 511   4                  }else if((game_bullet_speed_counter+game_boss_hp)%5==1){//ÏÂÒÆ
+ 512   4                      if(j==7){
+ 513   5                          if(game_map[15][6]!=BULLET){
+ 514   6                              game_map[15][j]=NOTHING;
+ 515   6                              DrawScreen(15,j,NOTHING);
+ 516   6                              game_map[15][6]=ENEMY_BOSS;
+ 517   6                              DrawScreen(15,6,ENEMY_BOSS);
+ 518   6                          }
+ 519   5                      }else if(game_map[15][j+1]!=BULLET){
+ 520   5                          game_map[15][j]=NOTHING;
+ 521   5                          DrawScreen(15,j,NOTHING);
+ 522   5                          game_map[15][j+1]=ENEMY_BOSS;
+ 523   5                          DrawScreen(15,j+1,ENEMY_BOSS);
+ 524   5                      }
+ 525   4                  }else{//²»¶¯
+ 526   4                      
+ 527   4                  }
+ 528   3                  break;
+ 529   3              }
+ 530   2              if(game_map[15][j]==ENEMY_BOSS_DILAPIDATED){//²ÐÑªBOSS¸ü¼Ó»úÖÇ
+ 531   3                  if((game_bullet_speed_counter+game_boss_hp)%3==0){//ÉÏÒÆ
+ 532   4                      if(j==0){
+ 533   5                          if(game_map[15][1]!=BULLET){
+ 534   6                              game_map[15][j]=NOTHING;
+ 535   6                              DrawScreen(15,j,NOTHING);
+ 536   6                              game_map[15][1]=ENEMY_BOSS_DILAPIDATED;
+ 537   6                              DrawScreen(15,1,ENEMY_BOSS_DILAPIDATED);
+ 538   6                          }
+ 539   5                      }else if(game_map[15][j-1]!=BULLET){
+ 540   5                          game_map[15][j]=NOTHING;
+ 541   5                          DrawScreen(15,j,NOTHING);
+ 542   5                          game_map[15][j-1]=ENEMY_BOSS_DILAPIDATED;
+ 543   5                          DrawScreen(15,j-1,ENEMY_BOSS_DILAPIDATED);
+ 544   5                      }
+ 545   4                  }else if((game_bullet_speed_counter+game_boss_hp)%3==1){//ÏÂÒÆ
+ 546   4                      if(j==7){
+ 547   5                          if(game_map[15][6]!=BULLET){
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 10  
+
+ 548   6                              game_map[15][j]=NOTHING;
+ 549   6                              DrawScreen(15,j,NOTHING);
+ 550   6                              game_map[15][6]=ENEMY_BOSS_DILAPIDATED;
+ 551   6                              DrawScreen(15,6,ENEMY_BOSS_DILAPIDATED);
+ 552   6                          }
+ 553   5                      }else if(game_map[15][j+1]!=BULLET){
+ 554   5                          game_map[15][j]=NOTHING;
+ 555   5                          DrawScreen(15,j,NOTHING);
+ 556   5                          game_map[15][j+1]=ENEMY_BOSS_DILAPIDATED;
+ 557   5                          DrawScreen(15,j+1,ENEMY_BOSS_DILAPIDATED);
+ 558   5                      }
+ 559   4                  }else{//²»¶¯
+ 560   4                      
+ 561   4                  }
+ 562   3                  break;
+ 563   3              }
+ 564   2          }
+ 565   1          //BOSS¹¥»÷
+ 566   1          if(game_progress==MAP_LENGTH+9){
+ 567   2              if(game_boss_attack_speed_counter++==7-game_level_selected/4){
+ 568   3                  for(j=0;j<=7;j++){
+ 569   4                      if(game_map[15][j]==ENEMY_BOSS||game_map[15][j]==ENEMY_BOSS_DILAPIDATED){
+ 570   5                          if(game_map[14][j]==MY_PLANE){
+ 571   6                              GameOver();
+ 572   6                          }else{
+ 573   6                              game_map[14][j]=AEROLITE;
+ 574   6                              DrawScreen(14,j,AEROLITE);
+ 575   6                          }
+ 576   5                          game_boss_attack_speed_counter=0;
+ 577   5                          break;
+ 578   5                      }
+ 579   4                  }
+ 580   3              }
+ 581   2          }
+ 582   1      }
+ 583          
+ 584          void GameMoveAerolite(){
+ 585   1          //ÒÆ¶¯ÔÉÊ¯
+ 586   1          char i,j;
+ 587   1          for(i=0;i<=14;i++){
+ 588   2              for(j=0;j<=7;j++){
+ 589   3                  if(i==0 && game_map[i][j]==AEROLITE){
+ 590   4                      game_map[i][j]=NOTHING;
+ 591   4                      DrawScreen(i,j,NOTHING);
+ 592   4                  }else{
+ 593   4                      if(game_map[i][j]==AEROLITE){
+ 594   5                          game_map[i][j]=NOTHING;
+ 595   5                          DrawScreen(i,j,NOTHING);
+ 596   5                          if(game_map[i-1][j]==MY_PLANE){
+ 597   6                              GameOver();
+ 598   6                          }else{
+ 599   6                              game_map[i-1][j]=AEROLITE;
+ 600   6                              DrawScreen(i-1,j,AEROLITE);
+ 601   6                          }
+ 602   5                      }
+ 603   4                  }
+ 604   3              }
+ 605   2          }
+ 606   1      }
+ 607          
+ 608          void GameOver(){
+ 609   1          scene=SCENE_GAME_OVER;
+C51 COMPILER V7.00  ´ò__»_____»_Ä_Äâ_÷                                                     08/14/2018 19:07:52 PAGE 11  
+
+ 610   1          clearAll();
+ 611   1              drawString(32,32,"Game over!");
+ 612   1              refreshScreen();
+ 613   1      }
+ 614          
+ 615          void GameWin(){
+ 616   1          scene=SCENE_GAME_WIN;
+ 617   1          clearAll();
+ 618   1              drawString(32,32,"You win!");
+ 619   1              refreshScreen();
+ 620   1      }
+ 621          
+ 622          void DrawScreen(unsigned char x,unsigned char y,unsigned char drawing_model){
+ 623   1          //ÓÎÏ·ÏÔÊ¾
+ 624   1          unsigned char i,j;//forÑ­»·ÁÙÊ±±äÁ¿
+ 625   1          //ÏÂÃæÕâ¶Î´úÂë¿ªÊ¼»æÍ¼(°´ÁÐ»æÍ¼)
+ 626   1              for(i=0;i<=7;i++){
+ 627   2              if(drawing_model==NOTHING){
+ 628   3                      g_ScreenMatrix[y][x*8+i]=0x00;
+ 629   3              }else{
+ 630   3                  //Ðý×ªÄ£ÐÍ£¬ÒòÎªLCDÇý¶¯·½Ê½²»Í¬£¬ÐèÒªË³Ê±ÕëÐý×ª90¶È¡£²»¹ýÕâÑù×öµ¼ÖÂ»­Ãæ½Ï¿¨¡£
+ 631   3                  //ÐÂÄ£ÐÍµÚÒ»ÁÐÎª¾ÉÄ£ÐÍ×îºóÒ»ÐÐ£¨µÚiÁÐÎª¾ÉÄ£ÐÍµÚ7-iÐÐ£©
+ 632   3                  unsigned char g_ScreenMatrix_tmp=0x00;
+ 633   3                  for(j=0;j<=7;j++){//ÐÐ
+ 634   4                      //È¡Ä£ÐÍÃ¿Ò»ÐÐµÄ7-iÎ»£¬¸³Öµµ½tmpµÄµÚjÎ»¡£
+ 635   4                      if(model[drawing_model][j]&(1<<(7-i))){
+ 636   5                          g_ScreenMatrix_tmp|=1<<j;
+ 637   5                      }
+ 638   4                  }
+ 639   3                      g_ScreenMatrix[y][x*8+i]=g_ScreenMatrix_tmp;
+ 640   3                      //g_ScreenMatrix[y][x*8+i]=model[drawing_model][i];
+ 641   3              }
+ 642   2              }
+ 643   1      }
+ 644          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   5133    ----
+   CONSTANT SIZE    =   1112    ----
+   XDATA SIZE       =   1188      30
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
